@@ -1,33 +1,38 @@
+# require 'pry'
+require "./board.rb"
+require "./player.rb"
+
 class Tic_tac_toe
+	#show the board, initialize two players
+	attr_reader :x_player, :o_player
+
 	#Initialize the game
 	def initialize
-		#build the board
-		@board = [[],[],[]]
+		@x_player = Player.new("Player 1", "X")
+		@o_player = Player.new("Player 2", "O")
+		start_game
 	end
 
-	def over?
-		#determine when the game is over
+	def start_game
+		puts "Welcome to Tic-Tac-Toe!"
+		@x_player.my_turn = true
+		show_board
 	end
 
-	#show the board
-	attr_reader :board
-
-	def check_board position
-		#checks to see if the positioni requested is already taken
+	def whose_turn?
+		until over?
+		current_player = @x_player.my_turn ? @x_player : o_player
+		current_player.make_move
+		switch_players
 	end
 
-	def position_empty
-		#what to do if the position chosen is empty
-	else 
-		#throw invalid error because position was taken
+	def switch_players
+		if x_player.my_turn
+			x_player.my_turn = false
+			o_player.my_turn = true
+		else
+			x_player.my_turn = true
+			o_player.my_turn = false
+		end
 	end
-
-	def three_row?
-		# Are there 3 in a row?
-	end
-
-end
-
-until over?
-	# repeats Tic_tac_toe class
 end
