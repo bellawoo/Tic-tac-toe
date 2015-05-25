@@ -15,13 +15,13 @@ class Tic_tac_toe
 
 	def start_game
 		puts "Welcome to Tic-Tac-Toe!"
-		@x_player.my_turn = true
+		x_player.my_turn = true
 		show_board
 	end
 
 	def whose_turn?
 		until over?
-		current_player = @x_player.my_turn ? @x_player : o_player
+		current_player = x_player.my_turn ? x_player : o_player
 		current_player.make_move
 		switch_players
 	end
