@@ -1,4 +1,4 @@
-# require 'pry'
+require 'pry'
 class Tic_tac_toe
 	#Initialize the game, board and two players
 	attr_reader :move, :win_combos, :win
@@ -18,9 +18,13 @@ class Tic_tac_toe
 	end
 
 	def show_board
-		puts "Testing to see if board works"
+		puts "|#{@board[0]}|#{@board[1]}|#{@board[2]}|"
+		puts "|---|---|---|"
+		puts "|#{@board[3]}|#{@board[4]}|#{@board[5]}|"
+		puts "|---|---|---|"
+		puts "|#{@board[6]}|#{@board[7]}|#{@board[8]}|"
 	end
-
+binding.pry
 	def check_board
 		move = gets.chomp.to_i
 		if (0..8).include?(move)
