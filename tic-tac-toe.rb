@@ -3,9 +3,10 @@ class Tic_tac_toe
 	attr_reader :move, :win_combos, :win
 
 	def initialize
-		@board = Array.new(9,"-")
+		@board = Array.new(9,"---")
 		puts "Welcome to Tic-Tac-Toe!"
 		@turn = 1
+		take_turn
 	end
 
 	def take_turn
@@ -27,7 +28,7 @@ class Tic_tac_toe
 	def check_board
 		move = gets.chomp.to_i
 		if (0..8).include?(move)
-			if @board[move] == "-"
+			if @board[move] == "---"
 				make_play(move)
 			else
 				puts "Whoa there! Looks like someone's already there. Try choosing another spot."
@@ -67,6 +68,7 @@ class Tic_tac_toe
 			tic.each do |move|
 				if check_win.include?(move)
 					tac_array += 1
+				end
 			end
 			won = 1 if tac_array == 3
 		end
