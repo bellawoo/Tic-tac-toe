@@ -1,80 +1,87 @@
 class Tic_tac_toe
 	#Initialize the game, board and two players
-	attr_reader :move, :win_combos, :win
+	attr_reader :board, :current_player
 
-	def initialize
-		@board = Array.new(9,"---")
-		puts "Welcome to Tic-Tac-Toe!"
+	def initialize player1, player2
+		@board = Array.new(9,"-")
+		@x = player1
+		@o = player2
 		@turn = 1
+		puts "Welcome to Tic-Tac-Toe!"
 		take_turn
 	end
 
-	def take_turn
-		show_board
-		@player = @turn.odd ? 1 : 2
-		@symbol = @turn.odd ? "X" : "O"
-		puts "Player #{@symbol} it is your turn. Make your move by typing in the number of the square in which you want to play."
-		check_board
+	def symbol
+		current_player == @x ? @o : @x
 	end
 
 	def show_board
 		puts "|#{@board[0]}|#{@board[1]}|#{@board[2]}|"
-		puts "|---|---|---|"
+		puts "|-|-|-|"
 		puts "|#{@board[3]}|#{@board[4]}|#{@board[5]}|"
-		puts "|---|---|---|"
+		puts "|-|-|-|"
 		puts "|#{@board[6]}|#{@board[7]}|#{@board[8]}|"
 	end
 
-	def check_board
+	def take_turn
+		show_board
+		puts "Player #{@symbol} it is your turn. Make your move by typing in the number of the square in which you want to play."
 		move = gets.chomp.to_i
+		check_board move
+	end
+
+	def check_board move
 		if (0..8).include?(move)
 			if @board[move] == "---"
 				make_play(move)
 			else
 				puts "Whoa there! Looks like someone's already there. Try choosing another spot."
+				take_turn
 			end
 		else
 			puts "Oops! Looks like that's not a valid entry. Try again with a number from 0-8."
+			take_turn
 		end
-		choose_spot
 	end
 
 	def make_play move
-		@board[move] = @symbol
-		check_win = []
-		board_full = 0
-		@board.each_with_index do |move, i|
-			check_win << i if move.include?(@symbol)
-			board_full += 1 if move.include?("X") || move.include?("O")
+		@board[move] = symbol
+
+		if @current_player == @x
+			@current_player = @o
+		else
+			@current_player = @x
 		end
 	end
 
 	def win_combos
 	# Possible wins
-		win_combos = [[0,1,2],
+	[
+		[0,1,2],
 		[3,4,5],
 		[6,7,8],
 		[0,3,6],
 		[1,4,7],
 		[2,5,8],
 		[0,4,8],
-		[2,4,6]]
+		[2,4,6]
+	]
 	end
 
 	def three_row?
-		win = 0
 		win_combos.each do |tic|
-			tac_array = 0
+			tac_count = 0
 			tic.each do |move|
-				if check_win.include?(move)
-					tac_array += 1
+				if win_combos.include?(move)
+					tac_count += 1
 				end
 			end
-			won = 1 if tac_array == 3
+			win = 1 if tac_count == 3
 		end
+
 		if win == 1
 			return 1
-		elsif board_full == 9
+		else
 			return 2
 		end
 	end
@@ -83,7 +90,7 @@ class Tic_tac_toe
 		#determine when the game is over
 		if three_row? == 1
 			show_board
-			puts "#{@symbol} has three in a row. #{@player} has won!"
+			puts "Tic-Tac-Toe! We have a winner."
 		elsif three_row == 2
 			show_board
 			puts "No more moves. It's a tie."
